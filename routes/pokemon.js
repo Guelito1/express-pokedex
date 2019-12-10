@@ -24,7 +24,6 @@ router.post('/', function(req, res) {
   }).then( function(data) {
     res.redirect('/pokemon')
   })
-
 });
 
 // GET /pokemon/:id - Get one pokemon id from the database
@@ -40,9 +39,18 @@ router.get('/:id', function(req, res) {
     var url = 'http://pokeapi.co/api/v2/pokemon/' + pokemon.name;
     axios.get(url).then( function(response) {
       // response
-    res.render('pokemon/show', {pokemon: response.data})
+      res.render('pokemon/show', {pokemon: response.data})
     });
   });
 });
+
+router.delete('/:id', function(req, res) {
+  db.pokemon.destroy(id).then(function(pokemon) {
+    var url = 'http://pokeapi.co/api/v2/pokemon/' + pokemon.name;
+    axios.get(url).then( function(response) {
+      res.render('pokemon/show', {pokemon: response.data})
+    })
+  })
+})
 
 module.exports = router;
